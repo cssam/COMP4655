@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="AppBuilder" default="deploy_local" basedir=".">
+	<property file="build.properties"/>
+	<property environment="env" />
+	
+	<path id="classpath">
+	    <fileset dir="/Users/chandima/jboss-6.1.0.Final/common/lib"  includes="*.jar" />
+	    </path>
+	
+	<!-- <path id="classpath">
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/javax/transaction/api/main/" includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/javax/ejb/api/main/" includes="*.jar" />
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/ejb-client/main/"  includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/marshalling/main/"   includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/xnio/main/"   includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/remoting3/main/"   includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/logging/main/"    includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/xnio/nio/main/"    includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/sasl/main/"  includes="*.jar"/>
+			<fileset dir="/Users/chandima/jboss-as-7.1.1.Final/modules/org/jboss/marshalling/river/main/"   includes="*.jar"/>
+	</path> -->
+	
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/classes"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/${class.dir}" debug="${debug}">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	 <target name="deploy" description="JARs the Task" depends="compile">
+	    <jar destfile="${env.JBOSS_HOME}\server\default\deploy/${project.name}.jar">
+	      <metainf dir="${root.dir}/META-INF" />
+	      <fileset dir="${class.dir}">
+	        <include name="ca/**/*.class" />
+	      </fileset>
+	    </jar>
+	  </target>
+	 
+	 <target name="deploy_local" description="JARs the Task" depends="compile">
+		<echo>Creating full EJB Jar</echo>
+		 <jar destfile="/Users/chandima/Google Drive/JavaProjectServ/A00558231_EJB_server/${project.name}.jar">
+	      <metainf dir="${root.dir}/META-INF" />
+	      <fileset dir="${build.dir}/${class.dir}">
+	        <include name="ca/**/*.class" />
+	      </fileset>
+	    </jar>
+	    <echo>Creating api for EJB </echo>
+		 <jar destfile="/Users/chandima/Google Drive/JavaProjectServ/A00558231_EJB_client/WebContent/WEB-INF/lib/${project.name}.jar">
+	      <metainf dir="${root.dir}/META-INF" />
+	      <fileset dir="${build.dir}/${class.dir}">
+	        <include name="ca/**/Employee.class" />
+	        <include name="ca/**/EmployeeService.class" />
+	        <include name="ca/**/EmployeeServiceLocal.class" />
+	        <include name="ca/**/EmployeeServiceRemote.class" />
+	        <include name="ca/**/ResponseCode.class" />
+	      </fileset>
+	    </jar>
+	</target>
+	 
+</project>

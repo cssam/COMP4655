@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+		  xmlns:c="http://java.sun.com/jsp/jstl/core"
+		  xmlns:fn="http://java.sun.com/jsp/jstl/functions"	
+		  xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+		  xmlns:ef="http://bcit.ca/as//calltag/employeeFunctions.tld"
+		  xmlns:dt="http://displaytag.sf.net"	
+		 version="2.0">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
+		pageEncoding="ISO-8859-1" session="false"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+		
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Employee Manager</title>
+<style type="text/css">
+		table { border: 3px outset black; }
+		td { border: 1px dotted black; }
+		tr {border: 1px dotted black; }
+		th {border: 1px thick black;}
+
+	</style>
+</head>
+<body>
+
+<c:choose>
+	<c:when test="${param.submit =='Delete' }">
+		<c:if test="${( not empty paramValues.del_id)}">
+			${ef:deleteEmployee(paramValues.del_id) }
+			<jsp:scriptlet>response.setHeader("REFRESH", "0");</jsp:scriptlet>
+			<font color="green">Delete Success !!!</font>
+		</c:if>
+	</c:when>
+	<c:when test="${param.submit =='Add' }">
+		<c:if test="${(empty parsingError) and (not empty param.id) and (not empty param.firstName) and (not empty param.lastName) and (not empty param.dob) }">
+			<jsp:useBean xmlns:jsp="http://java.sun.com/JSP/Page" id="employeeBean" class="ca.bcit.as.beans.Employee" scope="request" >
+				<jsp:setProperty name="employeeBean" property="id" value="${param.id}" />
+				<jsp:setProperty name="employeeBean" property="firstName" value="${param.firstName}" />
+				<jsp:setProperty name="employeeBean" property="lastName" value="${param.lastName}" />
+				<jsp:setProperty name="employeeBean" property="dob" value="${param.dob}" />
+			</jsp:useBean>	
+			<c:set value="${ef:putEmployee(employeeBean) }" var="addResult" scope="request"/>
+			<font color="green"><c:out value='${addResult}'/></font>
+		</c:if>
+		
+	</c:when>
+	<c:when test="${(param.submit =='Find') and (not empty param.find_id)}">
+		<c:if test="${empty ef:findEmployee(param.find_id) }">
+			<font color="red">No Matching found !!!</font>
+		</c:if>
+		<c:if test="${not empty ef:findEmployee(param.find_id) }">
+			<c:set value="${ef:findEmployee(param.find_id) }" var="item" scope="request"/>
+				<table  >
+				  <tr>
+				    <th>ID</th>
+				    <th>First Name</th>
+				    <th>Last Name</th>
+				    <th>DOB</th>
+				  </tr>
+				  <tr bgcolor="#86B404">
+				      <td align="right" ><c:out value='${item.id}'/></td>
+				      <td align="right" ><c:out value='${item.firstName}'/></td>
+				      <td align="right" ><c:out value='${item.lastName}'/></td>
+				      <td align="right" ><c:out value='${item.dob}'/></td>
+				   </tr>
+				   </table>
+		</c:if>
+	</c:when>
+
+</c:choose>
+
+<c:set var="Delete">
+	<form method="post" id="three" >
+    <input type="submit" name="submit" form="three"  value="Delete"/>
+    </form>
+</c:set>
+<c:set var="find_fileds">
+	ID:
+	<form method="post" id="two" >
+    	<input type="text" form="two"  name="find_id"/>
+    	<input type="submit" form="two" name="submit" value="Find"/>
+    </form>
+</c:set>
+<br></br>
+<jsp:directive.include file="add.jsp" />
+<br></br>
+<dt:table name="${ef:getEmployees()}" id="m" export="true" pagesize="5" excludedParams="*" decorator="ca.bcit.as.decorator.DateDecorator">
+	<dt:column style="width: 5%" title="${Delete}">
+    	<input type="checkbox" name="del_id" form="three"  value="${m_rowNum}" style="margin: 0 0 0 4px"  />
+    </dt:column>
+	<dt:column style="width: 25%" property="id" title="${find_fileds}"></dt:column>
+	<dt:column property="firstName" sortable="true" />
+	<dt:column property="lastName" /> 
+	<dt:column property="dob" sortable="true" title="DOB" />
+</dt:table>
+
+
+</body>
+</html>
+</jsp:root>

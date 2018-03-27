@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.bcit.ca/comp4655/jaxb/address" xmlns:tns="http://www.bcit.ca/comp4655/jaxb/address"
+	elementFormDefault="qualified">
+
+	<xsd:complexType name="address">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="number" type="tns:myInteger"/>
+			<xsd:element name="street" type="xsd:string" />
+			<xsd:element name="city" type="xsd:string" />
+			<xsd:element name="state" type="xsd:string" />
+			<xsd:element name="zip" type="xsd:decimal" />
+			<xsd:element name="email" type="tns:CommunicationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="country" type="xsd:NMTOKEN" fixed="CA" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="CommunicationType">
+		<xsd:choice>
+			<xsd:element name="SMS" type="xsd:string" />
+			<xsd:element name="MMS" type="xsd:string" />
+			<xsd:element name="Email" type="xsd:string" />
+		</xsd:choice>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="myInteger">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="10000" />
+			<xsd:maxInclusive value="99999" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	
+</xsd:schema>

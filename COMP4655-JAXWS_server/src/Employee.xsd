@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<xsd:schema version="1.0" 
+ xmlns:xb="http://www.bcit.ca/comp4655/employee/types/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ targetNamespace="http://www.bcit.ca/comp4655/employee/types/" >
+  
+   <xsd:element name="addEmployee">
+    <xsd:complexType >
+    <xsd:sequence>
+      <xsd:element name="employee" type="xb:employee" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="addEmployeeResponse" >
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="return" type="xb:responseCode" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  </xsd:element>
+  
+   <xsd:element name="removeEmployee">
+    <xsd:complexType >
+    <xsd:sequence>
+      <xsd:element name="employeeId" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  </xsd:element>
+  
+    <xsd:element name="removeEmployeeResponse" >
+	  <xsd:complexType>
+	    <xsd:sequence>
+	      <xsd:element name="return" type="xb:responseCode" minOccurs="0"/>
+	    </xsd:sequence>
+	  </xsd:complexType>
+  </xsd:element>
+  
+  
+  <xsd:element name="findEmployeeById">
+    <xsd:complexType >
+    <xsd:sequence>
+      <xsd:element name="employeeId" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  </xsd:element>
+  
+  
+  <xsd:element name="findEmployeeByIdResponse" >
+	  <xsd:complexType>
+	    <xsd:sequence>
+	      <xsd:element name="return" type="xb:employee" minOccurs="0"/>
+	    </xsd:sequence>
+	  </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="responseCode" type="xb:responseCode"/>
+    <xsd:complexType name="responseCode">
+    <xsd:sequence>
+      <xsd:element name="code" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="desc" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:element name="getEmployeeList">
+  	<xsd:complexType >
+	    <xsd:sequence/>
+	</xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="getEmployeeListResponse" >
+	  <xsd:complexType >
+	    <xsd:sequence>
+	      <xsd:element name="return" type="xb:employee" minOccurs="0" maxOccurs="unbounded"/>
+	    </xsd:sequence>
+	  </xsd:complexType>
+  </xsd:element>
+
+
+ <xsd:element name="employee" type="xb:employee"/>
+
+  <xsd:complexType name="employee">
+    <xsd:sequence>
+      <xsd:element name="dob" type="xsd:dateTime" minOccurs="0"/>
+      <xsd:element name="firstName" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="id" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="lastName" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:element name="EmployeeServerException">
+    <xsd:complexType >
+    <xsd:sequence>
+      <xsd:element name="message" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>
+

@@ -1,0 +1,25 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+		 version="2.4">
+	<display-name>Emp Admin</display-name>
+	 
+    <servlet>
+		<servlet-name>Employees</servlet-name>
+		<servlet-class>ca.bcit.comp4655.webapp.employee.presentation.controller.EmployeeServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Employees</servlet-name>
+		<url-pattern>/empApp</url-pattern>
+	</servlet-mapping>
+    
+	<jsp-config>
+		<taglib>
+	        <taglib-uri>http://displaytag.sourceforge.net/</taglib-uri>
+	        <taglib-location>/WEB-INF/lib/displaytag-1.2.jar</taglib-location>
+	    </taglib>
+	 </jsp-config>   
+</web-app> 
+

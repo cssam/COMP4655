@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Build script to build and deploy client applicatin for COMP 4655 assignment 2 -->
+
+<project name="Chandima Samaraweera COMP4655 Assignment02" default="deploy" basedir=".">
+	<property file="build.properties"/>
+	<property environment="env" />
+	
+	<path id="classpath">
+		 	<fileset dir="${lib.dir}" includes="*.jar "/>
+	</path>
+	
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/WEB-INF/classes"/>
+		<mkdir dir="${build.dir}/WEB-INF/lib"/>
+		<mkdir dir="${build.dir}/WEB-INF/jsps"/>
+		<mkdir dir="${build.dir}/data"/>
+		<mkdir dir="${build.dir}/resources"/>
+		<echo>Created ${build.dir}</echo>
+	</target>
+	
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="${debug}">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="copy" depends="compile">	
+		<copy todir="${build.dir}/WEB-INF">
+			<fileset dir="${root.dir}/WEB-INF">
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}" >
+			<fileset dir="${root.dir}">
+    			<include name="jsps/*"/>
+				<include name="resources/*"/>
+				<include name="data/*"/>
+			</fileset>
+		</copy>
+	
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}">
+					<exclude name="servlet-api-2.5.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/resources">
+			<fileset dir="${root.dir}/resources">
+				<include name="*.*"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/resources">
+			<fileset dir="${root.dir}/data">
+				<include name="*.*"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/">
+			<fileset dir="${root.dir}/data">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+		<delete file="${build.dir}/WEB-INF/lib/servlet-api.jar" />
+		<delete file="${build.dir}/WEB-INF/lib/javax.servlet.jsp.jar" />
+	</target>
+
+	
+	<target name="war" depends="copy">
+		<echo>Building the war file</echo>
+		<war destfile="${root.dir}/${project.name}.war" webxml="${root.dir}/WEB-INF/web.xml">
+			<fileset dir="${build.dir}"/>
+		</war>
+		<delete  dir="${build.dir}"/>
+	</target>
+	
+	<target name="deploy" depends="war">
+		<echo>Deploying in ${env.JBOSS_HOME}\server\default\deploy</echo>
+		<copy file="${root.dir}/${project.name}.war" todir="${env.JBOSS_HOME}\server\default\deploy" />
+		<delete  file="${root.dir}/${project.name}.war"/>
+	</target>
+	
+	<target name="deploy_local" depends="war">
+		<echo>Deploying in /Users/chandima/jboss-eap-6.2/standalone/deployments</echo>
+		<copy file="${root.dir}/${project.name}.war" todir="/Users/chandima/jboss-eap-6.2/standalone/deployments" />
+	</target>
+</project>

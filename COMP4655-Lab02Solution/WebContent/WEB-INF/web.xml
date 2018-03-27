@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" 
+		 version="2.4">
+	<display-name>Greetings in JSp Document</display-name>
+	<servlet>
+	    <display-name>greetings</display-name>
+	    <servlet-name>greetings</servlet-name>
+	    <jsp-file>/greeting.jspx</jsp-file>
+	</servlet>
+	
+	<jsp-config>
+	     <taglib>
+		 	<taglib-uri>http://bcit.ca/lab/calltag/customFunctions.tld</taglib-uri>
+		 	<taglib-location>/WEB-INF/customFunctions.tld</taglib-location>
+		</taglib>
+	    <jsp-property-group>
+	        <display-name>greetings</display-name>
+	        <url-pattern>*.jspx</url-pattern>
+	        <el-ignored>false</el-ignored>
+	        <scripting-invalid>false</scripting-invalid>
+	        <is-xml>true</is-xml>
+	    </jsp-property-group>
+	   
+	</jsp-config>
+	
+</web-app>

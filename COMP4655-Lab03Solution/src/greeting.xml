@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Greetings xmlns="http://www.bcit.ca/comp4655/jaxb/helloworld">
+	<Greeting language="EN">
+		<Text>Hello</Text>
+	</Greeting>
+	<Greeting language="FR">
+		<Text>Bonjour</Text>
+	</Greeting>
+</Greetings>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.bcit.ca/comp4655/types/xml/" 
+	xmlns:typ="http://www.bcit.ca/comp4655/types/xml/"
+	elementFormDefault="qualified" version="1.0">
+	
+	<xsd:simpleType name="string20">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="3" />
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:simpleType name="idString">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="8" />
+			<xsd:maxLength value="8" />
+			<xsd:pattern value="[A][0][0-9]{7}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="numeric">
+    	<xsd:restriction base="xsd:string">
+      		<xsd:pattern value="\d*"/>
+    	</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="numeric3">
+    	<xsd:restriction base="typ:numeric">
+      		<xsd:maxLength value="3"/>
+    	</xsd:restriction>
+	</xsd:simpleType>
+	
+</xsd:schema>

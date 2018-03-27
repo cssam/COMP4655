@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="${project.name}" default="deploy" basedir=".">
+	<property file="build.properties"/>
+	<property environment="env" />
+	
+	<path id="classpath">
+			<fileset dir="${env.JBOSS_HOME}/common/lib" includes="*.jar "/>
+	</path>
+	
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/classes"/>
+		<mkdir dir="${build.dir}/data"/>
+		<mkdir dir="${build.dir}/resources"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/${class.dir}" debug="${debug}">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="copy" depends="compile">			
+		<copy todir="${build.dir}" >
+			<fileset dir="${root.dir}">
+				<include name="resources/*"/>
+				<include name="data/*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	
+	 <target name="deploy" description="JARs the Task" depends="copy">
+	    <jar destfile="${env.JBOSS_HOME}\server\default\deploy/${project.name}.jar">
+	      <metainf dir="${root.dir}/META-INF" />
+	      <fileset dir="${class.dir}">
+	        <include name="ca/**/*.class" />
+	      </fileset>
+	    </jar>
+	 	
+	  </target>
+</project>

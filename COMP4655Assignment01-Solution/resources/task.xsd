@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.bcit.ca/comp4655/task/xml/" 
+	xmlns:tsk="http://www.bcit.ca/comp4655/task/xml/"
+	xmlns:typ="http://www.bcit.ca/comp4655/types/xml/"
+	elementFormDefault="qualified" version="1.0">
+	
+	<xsd:import namespace="http://www.bcit.ca/comp4655/types/xml/" schemaLocation="types.xsd" />
+	
+	<xsd:complexType name="Task">
+		<xsd:all>
+			<xsd:element name="id" type="xsd:nonNegativeInteger" />
+			<xsd:element name="description" type="typ:string20" />
+		</xsd:all>
+	</xsd:complexType>
+</xsd:schema>

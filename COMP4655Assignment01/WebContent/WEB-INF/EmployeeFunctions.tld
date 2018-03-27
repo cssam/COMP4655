@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    
+    <tlib-version>1.0</tlib-version>
+    <short-name>ef</short-name>
+    <uri>http://bcit.ca/as//calltag/employeeFunctions.tld</uri>
+    <function>
+        <name>getEmployees</name>
+        <function-class>
+           ca.bcit.as.calltag.EmployeeFunctions
+        </function-class>
+        <function-signature>
+            java.util.List getEmployees()
+        </function-signature>
+    </function>
+    <function>
+        <name>putEmployee</name>
+        <function-class>
+           ca.bcit.as.calltag.EmployeeFunctions
+        </function-class>
+        <function-signature>
+            java.lang.String putEmployee(ca.bcit.as.beans.Employee)
+        </function-signature>
+    </function>
+    <function>
+        <name>deleteEmployee</name>
+        <function-class>
+           ca.bcit.as.calltag.EmployeeFunctions
+        </function-class>
+        <function-signature>
+            void deleteEmployee(java.lang.String[])
+        </function-signature>
+    </function>
+    <function>
+        <name>findEmployee</name>
+        <function-class>
+           ca.bcit.as.calltag.EmployeeFunctions
+        </function-class>
+        <function-signature>
+            ca.bcit.as.beans.Employee findEmployee(java.lang.String)
+        </function-signature>
+    </function>
+</taglib>

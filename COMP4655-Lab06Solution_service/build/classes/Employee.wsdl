@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions 
+	xmlns:xs="http://www.bcit.ca/comp4655/employee/xml"
+	xmlns:tns="http://www.bcit.ca/comp4655/employee/types/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	name="EmployeeService"
+	targetNamespace="http://www.bcit.ca/comp4655/employee/xml">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.bcit.ca/comp4655/employee/types/" schemaLocation="Employee.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getEmployeeList">
+    <part name="employeeList" element="tns:getEmployeeList"/>
+  </message>
+  <message name="getEmployeeListResponse">
+    <part name="employeeListResp" element="tns:getEmployeeListResponse"/>
+  </message>
+  <message name="EmployeeServerException">
+    <part name="fault" element="tns:EmployeeServerException"/>
+  </message>
+
+  <message name="findEmployeeById">
+    <part name="parameters" element="tns:findEmployeeById"/>
+  </message>
+  <message name="findEmployeeByIdResponse">
+    <part name="parameters" element="tns:findEmployeeByIdResponse"/>
+  </message>
+
+  <portType name="EmployeeServicePort">
+    <operation name="getEmployeeList">
+      <input message="xs:getEmployeeList"/>
+      <output message="xs:getEmployeeListResponse"/>
+      <fault message="xs:EmployeeServerException" name="EmployeeServerException" />
+    </operation>
+    <operation name="findEmployeeById">
+      <input message="xs:findEmployeeById"/>
+      <output  message="xs:findEmployeeByIdResponse"/>
+      <fault message="xs:EmployeeServerException" name="EmployeeServerException"/>
+    </operation>
+   </portType>
+ 
+  <binding name="EmployeeServicePortBinding" type="xs:EmployeeServicePort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="getEmployeeList">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="EmployeeServerException">
+        <soap:fault name="EmployeeServerException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="findEmployeeById">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="EmployeeServerException">
+        <soap:fault name="EmployeeServerException" use="literal"/>
+      </fault>
+
+    </operation>
+   </binding>
+
+  <service name="EmployeeService">
+    <port name="EmployeeServicePort" binding="xs:EmployeeServicePortBinding">
+      <soap:address location="http://localhost:8080/employeeServices"/>
+    </port>
+  </service>
+</definitions>
+
